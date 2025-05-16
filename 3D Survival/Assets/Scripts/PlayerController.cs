@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         Move();
+        
     }
 
     private void LateUpdate()
@@ -82,7 +83,8 @@ public class PlayerController : MonoBehaviour
         if (context.phase == InputActionPhase.Started && IsGrounded())
         {
             Debug.Log("점프 누르는 중");
-            _rigidbody.AddForce(Vector2.up*jumpPower, ForceMode.Impulse);
+            _rigidbody.AddForce(Vector2 .up * jumpPower, ForceMode.Impulse);
+            
         }
     }
 
@@ -93,13 +95,13 @@ public class PlayerController : MonoBehaviour
             new Ray(transform.position + (transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),
             new Ray(transform.position + (-transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),
             new Ray(transform.position + (transform.right * 0.2f) + (transform.up * 0.01f), Vector3.down),
-            new Ray(transform.position + (-transform.right * 0.2f) + (transform.up * 0.01f), Vector3.down)
+            new Ray(transform.position + (-transform.right * 0.2f) +(transform.up * 0.01f), Vector3.down)
         };
 
         for (int i = 0; i < rays.Length; i++)
         {
             if (Physics.Raycast(rays[i], 0.1f, groundLayerMask))
-            {   
+            {
                 return true;
             }
         }
