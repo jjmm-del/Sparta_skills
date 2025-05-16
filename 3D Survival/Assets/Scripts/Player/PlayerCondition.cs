@@ -1,15 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCondition : MonoBehaviour
+public interface IDamagable
+{
+    void TakePhysicalDamage(int damage);
+}
+public class PlayerCondition : MonoBehaviour, IDamagable
 {
     public UICondition uiCondition;
     Condition health{get{return uiCondition.health;}}
     Condition hunger{get{return uiCondition.hunger;}}
     Condition stamina{get{return uiCondition.stamina;}}
-
+    
+    
     public float noHungerHealthDecay;
+
+    public event Action onTakeDamage;
+
     // Start is called before the first frame update
     void Update()
     {
@@ -42,6 +51,11 @@ public class PlayerCondition : MonoBehaviour
     {
         Debug.Log("죽었다!");
     }
-     
+
+    public void TakePhysicalDamage(int damage)
+    {
+        health.Subtract(damage);
+        onTakeDamage?.Invoke();
+    }
 }
    
