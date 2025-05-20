@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,9 +11,9 @@ public enum AIState
     Attacking
 }
 
-public class NPC : MonoBehaviour
+public class NPC : MonoBehaviour, IDamagable
 {
-    [Header("Stats")]
+    [Header("Stats")] 
     public int health;
     public float walkSpeed;
     public float runSpeed;
@@ -23,7 +25,7 @@ public class NPC : MonoBehaviour
     private AIState aiState;
 
     [Header("Wandering")]
-    public float minWanderDistance;
+    public float minsWanderDistance;
     public float maxWanderDistance;
     public float minWanderWaitTime;
     public float maxWanderWaitTime;
@@ -44,16 +46,17 @@ public class NPC : MonoBehaviour
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponentInChildren<Animator>();
+        animator = GetComponent<Animator>();
         meshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
     }
-
-    private void Start()
+    // Start is called before the first frame update
+    void Start()
     {
         SetState(AIState.Wandering);
     }
 
-    private void Update()
+    // Update is called once per frame
+    void Update()
     {
         playerDistance = Vector3.Distance(transform.position, CharacterManager.Instance.Player.transform.position);
 
@@ -62,17 +65,16 @@ public class NPC : MonoBehaviour
         switch (aiState)
         {
             case AIState.Idle:
-                PassiveUpdate();
-                break;
             case AIState.Wandering:
                 PassiveUpdate();
                 break;
             case AIState.Attacking:
+                AttackingUpdate();
                 break;
         }
     }
 
-    private void SetState(AIState state)
+    public void SetState(AIState state)
     {
         aiState = state;
 
@@ -93,6 +95,7 @@ public class NPC : MonoBehaviour
         }
 
         animator.speed = agent.speed / walkSpeed;
+
     }
 
     void PassiveUpdate()
@@ -107,6 +110,8 @@ public class NPC : MonoBehaviour
         {
             SetState(AIState.Attacking);
         }
+
+
     }
 
     void WanderToNewLocation()
@@ -116,26 +121,29 @@ public class NPC : MonoBehaviour
         SetState(AIState.Wandering);
         agent.SetDestination(GetWanderLocation());
     }
-
     Vector3 GetWanderLocation()
     {
         NavMeshHit hit;
 
-        NavMesh.SamplePosition(transform.position + (Random.onUnitSphere * Random.Range(minWanderDistance, maxWanderDistance)), out hit, maxWanderDistance, NavMesh.AllAreas);
+        NavMesh.SamplePosition(transform.position + (Random.onUnitSphere* Random.Range(minsWanderDistance,maxWanderDistance)),out hit, maxWanderDistance, NavMesh.AllAreas);
 
         int i = 0;
+
         while (Vector3.Distance(transform.position, hit.position) < detectDistance)
         {
-            NavMesh.SamplePosition(transform.position + (Random.onUnitSphere * Random.Range(minWanderDistance, maxWanderDistance)), out hit, maxWanderDistance, NavMesh.AllAreas);
+            NavMesh.SamplePosition(transform.position + (Random.onUnitSphere * Random.Range(minsWanderDistance, maxWanderDistance)), out hit, maxWanderDistance, NavMesh.AllAreas);
             i++;
             if (i == 30) break;
         }
 
         return hit.position;
+
     }
+
+
     void AttackingUpdate()
     {
-        if (playerDistance < attackDistance && IsPlayerInfieldofView())
+        if (playerDistance < attackDistance && isPlayerInFieldOfView())
         {
             agent.isStopped = true;
             if (Time.time - lastAttackTime > attackRate)
@@ -152,7 +160,6 @@ public class NPC : MonoBehaviour
             {
                 agent.isStopped = false;
                 NavMeshPath path = new NavMeshPath();
-
                 if (agent.CalculatePath(CharacterManager.Instance.Player.transform.position, path))
                 {
                     agent.SetDestination(CharacterManager.Instance.Player.transform.position);
@@ -162,7 +169,6 @@ public class NPC : MonoBehaviour
                     agent.SetDestination(transform.position);
                     agent.isStopped = true;
                     SetState(AIState.Wandering);
-
                 }
             }
             else
@@ -174,11 +180,46 @@ public class NPC : MonoBehaviour
         }
     }
 
-    bool IsPlayerInfieldofView()
+
+    bool isPlayerInFieldOfView()
     {
         Vector3 directionToPlayer = CharacterManager.Instance.Player.transform.position - transform.position;
         float angle = Vector3.Angle(transform.forward, directionToPlayer);
-
         return angle < fieldOfView * 0.5f;
     }
+
+    public void TakePhysicalDamage(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Die();
+        }
+
+        StartCoroutine(DamageFlash());
+    }
+
+    void Die()
+    {
+        for (int i = 0; i < dropOnDeath.Length; i++)
+        {
+            Instantiate(dropOnDeath[i].dropPrefab, transform.position + Vector3.up * 2, Quaternion.identity);
+        }
+
+        Destroy(gameObject);
+    }
+    IEnumerator DamageFlash()
+    {
+        for (int i = 0; i < meshRenderers.Length; i++)
+        {
+            meshRenderers[i].material.color = new Color(1.0f, 0.6f, 0.6f);
+        }
+        yield return new WaitForSeconds(0.1f);
+
+        for (int i = 0; i < meshRenderers.Length; i++)
+        {
+            meshRenderers[i].material.color = Color.white;
+        }
+    }
+
 }
