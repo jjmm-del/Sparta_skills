@@ -69,9 +69,27 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Use",
+                    "name": "Use1",
                     "type": "Button",
                     "id": "df3943f3-9d18-4ed5-b5a8-42153edecc0d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Use2",
+                    "type": "Button",
+                    "id": "093ba316-4822-4c51-95ff-9a18f62060b2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Use3",
+                    "type": "Button",
+                    "id": "d31bb3b9-7c56-4147-99dc-56585aef6027",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -205,29 +223,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Use",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "272eac09-a710-4640-adbf-af67e28f7b05",
-                    "path": "<Keyboard>/2",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Use",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a0548852-36fa-4e44-99d8-df327e5257ed",
-                    "path": "<Keyboard>/3",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Use",
+                    "action": "Use1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -250,6 +246,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interaction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ff2e4aa4-3711-4d10-8f6f-29db85174b81",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Use2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6bda2ba3-0032-4e38-9630-f5a4b54902de",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Use3",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

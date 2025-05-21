@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool canLook = true;
 
     private Rigidbody rb;
+    public ItemPanel itempanel;
 
     private void Awake()
     {
@@ -104,7 +105,19 @@ public class PlayerController : MonoBehaviour
         {
             //달리기 
         }
-            
+    }
+
+    public void OnUse1Input(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started) itempanel.UseItem(0);
+    }
+    public void OnUse2Input(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started) itempanel.UseItem(1);
+    }
+    public void OnUse3Input(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started) itempanel.UseItem(2);
     }
 
 

@@ -12,6 +12,7 @@ public class PlayerCondition : MonoBehaviour, IDamageable
     public UICondition uiCondition;
     
     Condition health {get {return uiCondition.health;}}
+    /*Condition ability {get {return uiCondition}} 능력 관련 condition을 넣어야 하지 않을까*/ 
     //other condition later
 
     public event Action onTakeDamge;

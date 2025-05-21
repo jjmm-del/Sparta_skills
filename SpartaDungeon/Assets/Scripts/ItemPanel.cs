@@ -1,20 +1,101 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 public class ItemPanel : MonoBehaviour
 {
     public ItemSlot[] slots;
+    public GameObject inventoryWindow;
+    public Transform slotPanel;
+
+    private int curUseIndex;
+    
+    private PlayerController controller;
+    private PlayerCondition condition;
+    
     
     // Start is called before the first frame update
     void Start()
     {
+        controller = CharacterManager.Instance.Player.controller;
+        condition = CharacterManager.Instance.Player.condition;
+        CharacterManager.Instance.Player.addItem += AddItem;
         
+        slots = new ItemSlot[slotPanel.childCount];
+
+        for (int i = 0; i < slots.Length; i++)
+        {
+            slots[i] = slotPanel.GetChild(i).GetComponent<ItemSlot>();
+            slots[i].index = i;
+            slots[i].inventory = this;
+            slots[i].Clear();
+        }
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AddItem()
     {
+        ItemData data = CharacterManager.Instance.Player.itemData;
+        if (data == null) return;
+        /* 재화(코인 등인지 먼저 파악)
+         if (data.itemType == ItemType.Resource)
+        {
+            
+        }*/
+
         
+        if (data.itemType == ItemType.Consumable)
+        {
+            ItemSlot empty = GetEmptySlot();
+            if (empty != null)
+            {
+                empty.item = data;
+                empty.canUse = true;
+                UpdateUI();
+            }
+            
+
+            CharacterManager.Instance.Player.itemData = null;
+            return;
+        }
+        
+
+    }
+
+    public void UpdateUI()
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].item != null)
+                slots[i].Set();
+            else
+                slots[i].Clear();
+        }
+    }
+
+    ItemSlot GetEmptySlot()
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].item == null)
+            {
+                return slots[i];
+            }
+        }
+        return null;
+    }
+
+    public void UseItem(int index)
+    {
+        if (index < 0 || index >= slots.Length) return;
+        ItemSlot slot = slots[index];
+        if (slot.item == null) return;
+
+        ItemData data = slot.item;
+        //아이템 효과에 맞게 처리
+        slot.Clear();
+        UpdateUI();
     }
 }

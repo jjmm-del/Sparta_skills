@@ -6,13 +6,13 @@ using UnityEngine.UI;
 public class ItemSlot : MonoBehaviour
 {
     public ItemData item;
-
+    public ItemPanel inventory;
     //public UIInventory inventory;
     public Image icon;
     private Outline outline;
 
     public int index; //123
-    public bool canUse;
+    public bool canUse; //소비아이템만 넣을꺼니까
 
     private void Awake()
     {
@@ -23,7 +23,7 @@ public class ItemSlot : MonoBehaviour
         outline.enabled = canUse;
     }
 
-    public void set()
+    public void Set()
     {
         icon.gameObject.SetActive(true);
         icon.sprite = item.icon;
