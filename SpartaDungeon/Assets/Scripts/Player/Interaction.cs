@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class Interaction : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class Interaction : MonoBehaviour
     
     public GameObject curInteractGameObject;
     private IInteractable curInteractable;
+    public Image promptImage;
+    public GameObject promptPanel;
     public TextMeshProUGUI promptText;
     private Camera camera;
     // Start is called before the first frame update
@@ -36,22 +39,33 @@ public class Interaction : MonoBehaviour
                 {
                     curInteractGameObject = hit.collider.gameObject;
                     curInteractable = hit.collider.GetComponent<IInteractable>();
-                    SetPromptText();
+                    SetPrompt();
                 }
             }
             else
             {
                 curInteractGameObject = null;
                 curInteractable = null;
-                promptText.gameObject.SetActive(false);
+                promptPanel.SetActive(false);
             }
         }
     }
 
+    void SetPrompt()
+    {
+        promptPanel.SetActive(true);
+        SetPromptText();
+        SetPromptImage();
+    }
     void SetPromptText()
     {
-        promptText.gameObject.SetActive(true);
         promptText.text = curInteractable.GetInteractPrompt();
+    }
+
+    void SetPromptImage()
+    {
+        promptImage.sprite = curInteractable.GetInteractSprite();
+        
     }
 
     public void OnInteractInput(InputAction.CallbackContext context)
@@ -61,7 +75,6 @@ public class Interaction : MonoBehaviour
             curInteractable.OnInteract();
             curInteractGameObject = null;
             curInteractable = null;
-            promptText.gameObject.SetActive(false);
         }
     }
 }
