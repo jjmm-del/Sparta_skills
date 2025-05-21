@@ -5,7 +5,7 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    void TakePhysicalDamate(int damageAmount);
+    void TakePhysicalDamage(int damageAmount);
 }
 public class PlayerCondition : MonoBehaviour, IDamageable
 {
@@ -37,7 +37,7 @@ public class PlayerCondition : MonoBehaviour, IDamageable
         Debug.Log("플레이어가 죽었다");
     }
 
-    public void TakePhysicalDamate(int damageAmount)
+    public void TakePhysicalDamage(int damageAmount)
     {
         health.Subtract(damageAmount);
         onTakeDamge?.Invoke();
