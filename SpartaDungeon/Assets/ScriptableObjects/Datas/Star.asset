@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd50c649f9443b40961fc8b5929e4d6, type: 3}
   m_Name: Star
   m_EditorClassIdentifier: 
-  displayName: 
-  description: 
+  displayName: "\uC2A4\uD0C0"
+  description: "\uB2E4\uC74C \uB9F5\uC744 \uD574\uAE08\uD558\uAE30\uC704\uD55C \uC2A4\uD0C0"
   itemType: 0
-  icon: {fileID: 0}
-  dropPrefab: {fileID: 0}
+  resourceType: 0
+  icon: {fileID: 21300000, guid: 0e335b1cf2c0df1458a3358b71f2e377, type: 3}
   canStack: 0
-  maxStackAmount: 0
+  maxStackAmount: 999

@@ -10,19 +10,21 @@ public enum ItemType
 
 public enum ResourceType
 {
-    Cost, // 별사탕, 코인 등 소비 가능?
-    Reward //스타, 업적용
+    Coin,
+    Star,
+    Life
 }
 
 [CreateAssetMenu(fileName = "Item", menuName = "New Item")]
 public class ItemData : ScriptableObject
 {
     [Header("Info")]
-    public string displayName;
-    public string description;
+    public string displayName, description;
     public ItemType itemType;
+    public ResourceType resourceType;
     public Sprite icon;
-    public GameObject dropPrefab;
+    //public GameObject dropPrefab;
+    
 
     [Header("Stacking")]
     public bool canStack;

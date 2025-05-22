@@ -39,11 +39,19 @@ public class ItemPanel : MonoBehaviour
     {
         ItemData data = CharacterManager.Instance.Player.itemData;
         if (data == null) return;
-        /* 재화(코인 등인지 먼저 파악)
+        
          if (data.itemType == ItemType.Resource)
         {
-            
-        }*/
+            switch (data.resourceType)
+            {
+                case ResourceType.Coin: ResourcePanel.Instance.AddCoin(); break;
+                case ResourceType.Star: ResourcePanel.Instance.AddStar(); break;
+                case ResourceType.Life: ResourcePanel.Instance.AddLife(); break;
+            }
+
+            CharacterManager.Instance.Player.itemData = null;
+            return;
+        }
 
         
         if (data.itemType == ItemType.Consumable)

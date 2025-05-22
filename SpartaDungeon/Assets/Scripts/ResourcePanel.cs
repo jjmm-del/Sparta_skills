@@ -1,50 +1,28 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class ResourcePanel : MonoBehaviour
 {
-    public GameObject coin;
-    public GameObject star;
-    public GameObject life;
-    public TextMeshProUGUI coinText;
-    public TextMeshProUGUI starText;
-    public TextMeshProUGUI lifeText;
+    public static ResourcePanel Instance { get; private set; }
     
-
-    public int coinValue;
-    public int starValue;
-    public int lifeValue;
-    private void Start()
+    
+    public TextMeshProUGUI coinText, starText, lifeText;
+    public int coinValue, starValue, lifeValue;
+    
+    private void Awake()
     {
-        
+        if(Instance == null) Instance = this;
+        else Destroy(gameObject);
     }
 
     void Update()
     {
-        coinText.text = CoinValueString(coinValue);
-        starText.text = StarValueString(starValue);
-        lifeText.text = LifeValueString(lifeValue);
+        coinText.text = $"X {coinValue}";
+        starText.text = $"X {starValue}";
+        lifeText.text = $"X {lifeValue}";
     }
 
-    string CoinValueString(int coinValue)
-    {
-        string CoinValueString = "X " + coinValue.ToString();
-        
-        return CoinValueString;
-    }
-    string StarValueString(int starValue)
-    {
-        string starValueString = "X " + starValue.ToString();
-        
-        return starValueString;
-    }
-    string LifeValueString(int lifeValue)
-    {
-        string lifeValueString = "X " + lifeValue.ToString();
-        
-        return lifeValueString;
-    }
+    public void AddCoin(int amount = 1) => coinValue += amount;
+    public void AddStar(int amount = 1) => starValue += amount;
+    public void AddLife(int amount = 1) => lifeValue += amount;
 }
