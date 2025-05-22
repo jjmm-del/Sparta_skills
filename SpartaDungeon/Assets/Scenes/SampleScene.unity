@@ -2991,6 +2991,7 @@ GameObject:
   - component: {fileID: 1875949933}
   - component: {fileID: 1875949932}
   - component: {fileID: 1875949931}
+  - component: {fileID: 1875949935}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -3278,6 +3279,10 @@ MonoBehaviour:
   maxXLook: 85
   lookSensitivity: 0.1
   canLook: 1
+  canFire: 0
+  fireProjectilePrefab: {fileID: 0}
+  projectileSpeed: 0
+  projectileLifeTime: 0
   itempanel: {fileID: 0}
 --- !u!114 &1875949934
 MonoBehaviour:
@@ -3294,6 +3299,18 @@ MonoBehaviour:
   controller: {fileID: 0}
   condition: {fileID: 0}
   itemData: {fileID: 0}
+--- !u!114 &1875949935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875949924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2676aa508e63184695dfd0233c59850, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1880856815 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7187827457416549234, guid: 3e5d70f5ec76baf498a304a1ffc4c52b, type: 3}
