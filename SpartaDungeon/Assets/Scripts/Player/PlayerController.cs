@@ -17,9 +17,11 @@ public class PlayerController : MonoBehaviour
     public float maxXLook;
     private float camCurXRot;
     public float lookSensitivity;
-    
-    
 
+    [SerializeField] private Animator handAnimator = null;
+    
+    
+    
     private Vector2 mouseDelta;
 
     [HideInInspector]
@@ -67,10 +69,14 @@ public class PlayerController : MonoBehaviour
         if (context.phase == InputActionPhase.Performed)
         {
             curMovementInput = context.ReadValue<Vector2>();
+
+            bool moving = curMovementInput.sqrMagnitude > 0.01f;
+            handAnimator.SetBool("Moving", moving);
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
             curMovementInput = Vector2.zero;
+            handAnimator.SetBool("Moving", false);
         }
     }
 
