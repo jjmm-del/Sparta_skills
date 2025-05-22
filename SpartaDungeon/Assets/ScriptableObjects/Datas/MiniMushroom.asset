@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8cd50c649f9443b40961fc8b5929e4d6, type: 3}
-  m_Name: SuperMushroom
+  m_Name: MiniMushroom
   m_EditorClassIdentifier: 
-  displayName: "\uC288\uD37C\uBC84\uC12F"
-  description: "\uBA39\uC73C\uBA74 \uD06C\uAE30\uAC00 \uCEE4\uC9C0\uB294 \uC288\uD37C\uBC84"
+  displayName: "\uB545\uCF69 \uBC84\uC12F"
+  description: "\uD06C\uAE30\uAC00 \uC791\uC544\uC9C0\uB294 \uB545\uCF69\uBC84\uC12F"
   itemType: 1
   resourceType: 0
-  powerUpType: 1
-  icon: {fileID: 21300000, guid: 4b7dc93a76218484a972357f7f4ca27c, type: 3}
+  powerUpType: 2
+  icon: {fileID: 21300000, guid: 83173a41e70811343aaf5089d4baec2c, type: 3}
   duration: 10
-  scaleFactor: 3
+  scaleFactor: 0.5
   projectilePrefab: {fileID: 0}
   projectileSpeed: 20
   projectileLifeTime: 5
