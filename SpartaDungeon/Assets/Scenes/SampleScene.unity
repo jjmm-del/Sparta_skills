@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.30063495, g: 0.4024101, b: 0.56722075, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3233,11 +3233,35 @@ MonoBehaviour:
     m_ActionId: c3494864-ef86-4ad5-a887-a18a003104d1
     m_ActionName: Player/Jump[/Keyboard/space]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1875949933}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnSitInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 46f1bfba-3015-4216-9d29-a63939a8233d
     m_ActionName: Player/Sit[/Keyboard/c]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1875949933}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnRunInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: d280c59a-09fb-4fed-9feb-d8434b2b4e39
     m_ActionName: Player/Run[/Keyboard/leftShift]
   - m_PersistentCalls:
@@ -3375,7 +3399,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 374a29f992ae8464d96b161c2b386b39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  walkSpeed: 3
+  runSpeed: 6
   jumpPower: 100
   groundLayerMask:
     serializedVersion: 2
@@ -3389,6 +3414,8 @@ MonoBehaviour:
   tpsCamera: {fileID: 336206788}
   tpsDistance: 4
   tpsHeight: 2
+  scaleFactor: 0.5
+  handTransform: {fileID: 748337127}
   handAnimator: {fileID: 748337128}
   canLook: 1
   canFire: 0

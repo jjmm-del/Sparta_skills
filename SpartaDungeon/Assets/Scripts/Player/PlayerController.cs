@@ -6,10 +6,13 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
-    public float moveSpeed;
+    public float walkSpeed;
+    public float runSpeed;
     private Vector2 curMovementInput;
     public float jumpPower;
     public LayerMask groundLayerMask;
+    private float moveSpeed;
+    
     
     [Header("Look")]
     public Transform cameraContainer;
@@ -27,7 +30,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float tpsDistance = 4f;
     [SerializeField] private float tpsHeight = 2f;
     
-    
+    [Header("Sit Scale")]
+    [SerializeField] private float scaleFactor = 0.5f;
+    [SerializeField] private Transform handTransform = null;
+
+    private Vector3 OriginalPlayerScale;
+    private Vector3 OriginalHandScale;
+    private bool isSitted = false;
+        
+        
+        
+        
+        
     private bool isThirdPerson = false;
     
     
@@ -51,6 +65,10 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        OriginalPlayerScale = transform.localScale;
+        OriginalHandScale = handTransform.localScale; 
+        
+        moveSpeed = walkSpeed;
         
     }
     
@@ -117,7 +135,8 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Performed && IsGrounded())
         {
-            //땅에서 앉기 -> 앉은 상태
+            StartSitting();
+            handAnimator.SetBool("Sit", true);
         }
 
         if (context.phase == InputActionPhase.Performed && !IsGrounded())
@@ -127,14 +146,23 @@ public class PlayerController : MonoBehaviour
         
         else if (context.phase == InputActionPhase.Canceled)
         {
-            //다시 일어선 상태
+            StopSitting();
+            handAnimator.SetBool("Sit", false);
         }
     }
     public void OnRunInput(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed && !IsGrounded())
+        
+        if (context.phase == InputActionPhase.Performed && IsGrounded())
         {
-            //달리기 
+            moveSpeed = runSpeed;
+            handAnimator.SetInteger("MoveSpeed", (int)moveSpeed);
+            
+        }
+        if (context.phase == InputActionPhase.Canceled)
+        {
+            moveSpeed = walkSpeed;
+            handAnimator.SetInteger("MoveSpeed", (int)moveSpeed);
         }
     }
 
@@ -209,6 +237,40 @@ public class PlayerController : MonoBehaviour
         rb.velocity = cam.forward * projectileSpeed;
         Object.Destroy(projctile, projectileLifeTime);
         
+    }
+
+    public void StartSitting()
+    {
+        if (isSitted == true)
+        {
+            return;
+        }
+        isSitted = true;
+        
+        Vector3 newPlayerScale = new Vector3(
+            OriginalPlayerScale.x,
+            OriginalPlayerScale.y * scaleFactor,
+            OriginalPlayerScale.z
+            );
+        transform.localScale = newPlayerScale;
+
+        Vector3 newHandScale = new Vector3(
+            OriginalHandScale.x,
+            OriginalHandScale.y / scaleFactor,
+            OriginalHandScale.z);
+        handTransform.localScale = newHandScale;
+    }
+
+    public void StopSitting()
+    {
+        if (isSitted == false)
+            return;
+        
+        isSitted = false;
+        transform.localScale = OriginalPlayerScale;
+        handTransform.localScale = OriginalHandScale;
+
+
     }
 
     public void ToggleCursor(bool toggle)
