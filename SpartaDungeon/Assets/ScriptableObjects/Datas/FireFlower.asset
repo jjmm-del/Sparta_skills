@@ -21,7 +21,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: de4f6c61bddfaa44aaea518c12476c06, type: 3}
   duration: 10
   scaleFactor: 1
-  projectilePrefab: {fileID: 0}
+  projectilePrefab: {fileID: 8333293580790587698, guid: 459037cf5a29df8449a5e75c88dc7c58, type: 3}
   projectileSpeed: 20
   projectileLifeTime: 5
   canStack: 0

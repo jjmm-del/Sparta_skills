@@ -18,9 +18,22 @@ public class PlayerController : MonoBehaviour
     private float camCurXRot;
     public float lookSensitivity;
 
+    [Header("Camera Setup")]
+    [SerializeField] private Camera mainCamera = null;
+    [SerializeField] private Camera handCamera = null;
+    [SerializeField] private Camera tpsCamera = null;
+    
+    [Header("Tps Offset")]
+    [SerializeField] private float tpsDistance = 4f;
+    [SerializeField] private float tpsHeight = 2f;
+    
+    
+    private bool isThirdPerson = false;
+    
+    
+    
+    
     [SerializeField] private Animator handAnimator = null;
-    
-    
     
     private Vector2 mouseDelta;
 
@@ -38,6 +51,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        SetCameraState(false);
     }
     
     // Start is called before the first frame update
@@ -53,7 +67,7 @@ public class PlayerController : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (canLook)
+        if (canLook && !isThirdPerson)
         {
             CameraLook();
         }
@@ -136,7 +150,17 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started) itempanel.UseItem(2);
     }
-
+    public void OnSwitchView(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            isThirdPerson = !isThirdPerson;
+            SetCameraState(isThirdPerson);
+        }
+                
+    }
+    
+    
 
     private void Move()
     {
@@ -185,9 +209,24 @@ public class PlayerController : MonoBehaviour
         Object.Destroy(projctile, projectileLifeTime);
         
     }
+
+    private void SetCameraState(bool thirdPerson)
+    {
+        mainCamera.enabled = !thirdPerson;
+        handCamera.enabled = !thirdPerson;
+        tpsCamera.enabled = thirdPerson;
+
+        canLook = !thirdPerson;
+    }
+    
+    
+    
+    
     public void ToggleCursor(bool toggle)
     {
         Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
         canLook = !toggle;
     }
+
+    
 }
