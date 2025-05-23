@@ -6,10 +6,13 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
-    public float moveSpeed;
+    public float walkSpeed;
+    public float runSpeed;
     private Vector2 curMovementInput;
     public float jumpPower;
     public LayerMask groundLayerMask;
+    private float moveSpeed;
+    
     
     [Header("Look")]
     public Transform cameraContainer;
@@ -51,6 +54,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        moveSpeed = walkSpeed;
         
     }
     
@@ -117,7 +121,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Performed && IsGrounded())
         {
-            //땅에서 앉기 -> 앉은 상태
+            handAnimator.SetBool("Sit", true);
         }
 
         if (context.phase == InputActionPhase.Performed && !IsGrounded())
@@ -132,9 +136,17 @@ public class PlayerController : MonoBehaviour
     }
     public void OnRunInput(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed && !IsGrounded())
+        
+        if (context.phase == InputActionPhase.Performed && IsGrounded())
         {
-            //달리기 
+            moveSpeed = runSpeed;
+            handAnimator.SetInteger("MoveSpeed", (int)moveSpeed);
+            
+        }
+        if (context.phase == InputActionPhase.Canceled)
+        {
+            moveSpeed = walkSpeed;
+            handAnimator.SetInteger("MoveSpeed", (int)moveSpeed);
         }
     }
 
