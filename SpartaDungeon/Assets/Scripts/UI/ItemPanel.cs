@@ -39,11 +39,19 @@ public class ItemPanel : MonoBehaviour
     {
         ItemData data = CharacterManager.Instance.Player.itemData;
         if (data == null) return;
-        /* 재화(코인 등인지 먼저 파악)
+        
          if (data.itemType == ItemType.Resource)
         {
-            
-        }*/
+            switch (data.resourceType)
+            {
+                case ResourceType.Coin: ResourcePanel.Instance.AddCoin(); break;
+                case ResourceType.Star: ResourcePanel.Instance.AddStar(); break;
+                case ResourceType.Life: ResourcePanel.Instance.AddLife(); break;
+            }
+
+            CharacterManager.Instance.Player.itemData = null;
+            return;
+        }
 
         
         if (data.itemType == ItemType.Consumable)
@@ -90,11 +98,41 @@ public class ItemPanel : MonoBehaviour
     public void UseItem(int index)
     {
         if (index < 0 || index >= slots.Length) return;
+        
         ItemSlot slot = slots[index];
         if (slot.item == null) return;
-
+        
         ItemData data = slot.item;
-        //아이템 효과에 맞게 처리
+        PowerUpManager powerUpManager = CharacterManager.Instance.Player.GetComponent<PowerUpManager>();
+        PlayerController controller = CharacterManager.Instance.Player.controller;
+
+        switch (data.powerUpType)
+        {
+            case PowerUpType.Grow: 
+                ScalePowerUp growUp = new ScalePowerUp(controller.transform, data.scaleFactor);
+                powerUpManager.ApplyPowerUp(growUp, data.duration);
+                break;
+                
+            case PowerUpType.Shrink: 
+                ScalePowerUp shrinkUp = new ScalePowerUp(controller.transform, data.scaleFactor);
+                powerUpManager.ApplyPowerUp(shrinkUp, data.duration);
+                break;
+                
+            case PowerUpType.Flower:
+                ProjectilePowerUp flowerUp = new ProjectilePowerUp(
+                    controller,
+                    data.projectilePrefab,
+                    data.projectileSpeed,
+                    data.projectileLifeTime
+                );
+                powerUpManager.ApplyPowerUp(flowerUp, data.duration);
+                break;
+            
+            case PowerUpType.None:
+            default:
+                    break;
+        }
+        
         slot.Clear();
         UpdateUI();
     }

@@ -8,21 +8,40 @@ public enum ItemType
     Consumable //소비아이템 - 버섯, 꽃
 }
 
+public enum PowerUpType
+{
+    None,
+    Grow,
+    Shrink,
+    Flower
+}
+
 public enum ResourceType
 {
-    Cost, // 별사탕, 코인 등 소비 가능?
-    Reward //스타, 업적용
+    Coin,
+    Star,
+    Life
 }
 
 [CreateAssetMenu(fileName = "Item", menuName = "New Item")]
 public class ItemData : ScriptableObject
 {
     [Header("Info")]
-    public string displayName;
-    public string description;
+    public string displayName, description;
     public ItemType itemType;
+    public ResourceType resourceType;
+    public PowerUpType powerUpType;
     public Sprite icon;
-    public GameObject dropPrefab;
+
+    //공통
+    public float duration = 10f;
+    //Grow,Shrink
+    public float scaleFactor = 1f;
+    //flower
+    public GameObject projectilePrefab;
+    public float projectileSpeed = 20f;
+    public float projectileLifeTime = 5.0f;
+    
 
     [Header("Stacking")]
     public bool canStack;

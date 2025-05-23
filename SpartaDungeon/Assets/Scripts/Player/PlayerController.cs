@@ -18,9 +18,19 @@ public class PlayerController : MonoBehaviour
     private float camCurXRot;
     public float lookSensitivity;
 
+    [SerializeField] private Animator handAnimator = null;
+    
+    
+    
     private Vector2 mouseDelta;
 
-    [HideInInspector] public bool canLook = true;
+    [HideInInspector]
+    public bool canLook = true;
+    public bool canFire = false;
+    public GameObject fireProjectilePrefab;
+    public float projectileSpeed;
+    public float projectileLifeTime;
+        
 
     private Rigidbody rb;
     public ItemPanel itempanel;
@@ -59,10 +69,14 @@ public class PlayerController : MonoBehaviour
         if (context.phase == InputActionPhase.Performed)
         {
             curMovementInput = context.ReadValue<Vector2>();
+
+            bool moving = curMovementInput.sqrMagnitude > 0.01f;
+            handAnimator.SetBool("Moving", moving);
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
             curMovementInput = Vector2.zero;
+            handAnimator.SetBool("Moving", false);
         }
     }
 
@@ -78,7 +92,10 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started)
         {
-            //공격
+            if (canFire && fireProjectilePrefab != null)
+            {
+                FireProjetile();
+            }
         }
     }
     
@@ -158,6 +175,16 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
+    private void FireProjetile()
+    {
+        Transform cam = this.cameraContainer;
+        Vector3 spawnPos = cam.position + cam.forward * 1.0f;
+        GameObject projctile = Instantiate(fireProjectilePrefab,spawnPos,Quaternion.identity);
+        Rigidbody rb = projctile.GetComponent<Rigidbody>();
+        rb.velocity = cam.forward * projectileSpeed;
+        Object.Destroy(projctile, projectileLifeTime);
+        
+    }
     public void ToggleCursor(bool toggle)
     {
         Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
