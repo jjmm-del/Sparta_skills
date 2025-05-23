@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        SetCameraState(false);
+        
     }
     
     // Start is called before the first frame update
@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (canLook && !isThirdPerson)
+        if (canLook)
         {
             CameraLook();
         }
@@ -152,12 +152,13 @@ public class PlayerController : MonoBehaviour
     }
     public void OnSwitchView(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started)
-        {
+        if (context.phase != InputActionPhase.Started) return;
+        
             isThirdPerson = !isThirdPerson;
-            SetCameraState(isThirdPerson);
-        }
-                
+            mainCamera.enabled = !isThirdPerson;
+            handCamera.enabled = !isThirdPerson;
+            tpsCamera.enabled = isThirdPerson;
+        
     }
     
     
@@ -210,18 +211,6 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    private void SetCameraState(bool thirdPerson)
-    {
-        mainCamera.enabled = !thirdPerson;
-        handCamera.enabled = !thirdPerson;
-        tpsCamera.enabled = thirdPerson;
-
-        canLook = !thirdPerson;
-    }
-    
-    
-    
-    
     public void ToggleCursor(bool toggle)
     {
         Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
