@@ -21,6 +21,7 @@
 
  - 바 형태의 체력바가 아닌 참고 게임 SuperMario Wii GalaxyAdventure의 원형 체력을 사용하여 대미지 구현
  - 체력이 닳을 때 색깔이 바뀌는 것은 구현하지 못한 것이 아쉬움
+   ![Image](https://github.com/user-attachments/assets/7be7bddd-01a6-43bc-8474-35caf1c25226)
 </details>
 
 <details><summary><h3>동적 환경 조사
@@ -28,12 +29,14 @@
 
  - 강의 내용에 Ray와 Raycast를 사용하여 마우스 방향에 있는 아이템 오브젝트의 정보를 전달하는 패널 구현
  - CrossHair는 구현하지 않아 조준에 어려움이 있을 수 있음
+   ![Image](https://github.com/user-attachments/assets/132c0555-4387-465b-aa6d-3f583b57bebd)
 </details>
 
 <details><summary> <h3>점프대
 </h3></summary>
 
  - RigidBody와 ForceMode Impulse를 사용하여 순간적으로 높은 점프력을 낼 수 있는 점프대를 구현
+ - Cube로 만든 Object에 boxcollider로 충돌을 감지하게 되면 옆면 모두 점프력을 줄 수 있게되어 Cube위에 Plane Object를 Child로 만들어서 위에서만 점프가 가능하게 제작
  
 </details>
 
